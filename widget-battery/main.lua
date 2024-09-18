@@ -68,18 +68,22 @@ local function paint(widget)
 	
 	-- Display voltage + %
 	lcd.color(lcd.themeColor(0))
+    lcd.font(FONT_S)
+    local s = widget.battSource:name()
+    local text_w, text_h = lcd.getTextSize(s)
+    lcd.drawText(w/2-text_w/2, 2, widget.battSource:name(), LEFT)
 	local i
 	i = getCellCount(widget)
 	if widget.showTotalVolt then
         lcd.font(FONT_XXL)
-		local s = widget.battSource:value() .." V"
-		local text_w, text_h = lcd.getTextSize(s)
-		lcd.drawText(3*w/4-text_w/2, h/2-text_h/2+1, s, LEFT)
+		s = widget.battSource:value() .." V"
+		text_w, text_h = lcd.getTextSize(s)
+		lcd.drawText(3*w/4-text_w/2, h/2-text_h/2+10, s, LEFT)
 		
 		lcd.font(FONT_XL)
 		s = getPercentage(widget,i)
-		local text_w, text_h = lcd.getTextSize(s)
-		lcd.drawText(w/4-text_w, h/2-text_h/2+1,  s .. "%", LEFT)
+		text_w, text_h = lcd.getTextSize(s)
+		lcd.drawText(w/4-text_w, h/2-text_h/2+10,  s .. "%", LEFT)
 		
 	else
 		if i>0 then
@@ -88,20 +92,20 @@ local function paint(widget)
 			--local text_w, text_h = lcd.getTextSize(s)
 			--lcd.drawText(w-text_w-10, 0, i .. "S")
 			lcd.font(FONT_XXL)
-			local s = widget.battSource:value() / i .." V"
-			local text_w, text_h = lcd.getTextSize(s)
+			s = widget.battSource:value() / i .." V"
+			text_w, text_h = lcd.getTextSize(s)
 			--lcd.drawText(w-text_w-10, h/2-text_h/2+1, s, LEFT)
-            lcd.drawText(3*w/4-text_w/2, h/2-text_h/2+1, s, LEFT)
+            lcd.drawText(3*w/4-text_w/2, h/2-text_h/2+10, s, LEFT)
 			
 			lcd.font(FONT_XL)
 			s = getPercentage(widget,i)
-			local text_w, text_h = lcd.getTextSize(s)
-			lcd.drawText(w/4-text_w, h/2-text_h/2+1,  s .. "%", LEFT)
+			text_w, text_h = lcd.getTextSize(s)
+			lcd.drawText(w/4-text_w, h/2-text_h/2+10,  s .. "%", LEFT)
 		else
 			lcd.font(FONT_STD)
 			s = "Cell calculation error !"
 			lcd.color(COLOR_RED)
-			local text_w, text_h = lcd.getTextSize(s)
+			text_w, text_h = lcd.getTextSize(s)
 			lcd.drawText(0, 0, "Cell calculation error")
 		end
 	end
@@ -162,7 +166,7 @@ end
 
 -- Register widget
 local function init()
-    system.registerWidget({key="battW", name=name, create=create, paint=paint, wakeup=wakeup, configure=configure, read=read, write=write})
+    system.registerWidget({key="battW", name=name, create=create, paint=paint, wakeup=wakeup, configure=configure, read=read, write=write, title=false})
 end
 
 return {init=init}
