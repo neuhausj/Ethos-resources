@@ -27,7 +27,7 @@ STRICT_BIGGER = 3
 BIGGER = 4 
 
 -- Widget name
-local translations = {en="Status widget", fr="Widget état"}
+local translations = {en="Status", fr="État"}
 local function name(widget)
     local locale = system.getLocale()
     return translations[locale] or translations["en"]
@@ -44,18 +44,18 @@ local function paint(widget)
 	local w, h = lcd.getWindowSize()
 
     if widget.source == nil then
-        lcd.font(FONT_STD)
-		s = "Widget settings error !"
-		lcd.color(COLOR_RED)
-		local text_w, text_h = lcd.getTextSize(s)
-        lcd.drawText(w/2-text_w/2, h/2-text_h/2, s)
-		return
+        return
     end
+	
+	-- Write channel name in title
+	lcd.font(FONT_S)
+    local s = widget.source:name()
+    local text_w, text_h = lcd.getTextSize(s)
+    lcd.drawText(w/2-text_w/2, 2, widget.source:name(), LEFT)
 	
 	-- Draw perimeter
 	lcd.color(BLACK)
-	lcd.drawRectangle(2, 2, w-4, h-4)
-	
+	lcd.drawRectangle(2, text_h+2, w-4, h-text_h-4)
 	-- Draw status rectangle
 	if widget.thresholdType == SMALLER and widget.value <= widget.thresholdValue then
 		lcd.color(widget.colorOn)
@@ -70,7 +70,7 @@ local function paint(widget)
 	else
 		lcd.color(widget.colorOff)
 	end
-	lcd.drawFilledRectangle(4, 4, w-8, h-8)
+	lcd.drawFilledRectangle(3, text_h+3, w-6, h-text_h-6)
 end
 
 -- Trigger to redraw the widget
@@ -129,7 +129,7 @@ end
 
 -- Register widget
 local function init()
-    system.registerWidget({key="statusW", name=name, create=create, paint=paint, wakeup=wakeup, configure=configure, read=read, write=write})
+    system.registerWidget({key="statusW", name=name, create=create, paint=paint, wakeup=wakeup, configure=configure, read=read, write=write, title=false})
 end
 
 return {init=init}
