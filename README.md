@@ -71,6 +71,9 @@ In __Vars__ you can change:
 6. p_Elev_Rate: rates of elevator
 7. p_Rudder_Rate: rates of rudder
 
+Template default is brakes are retracted when throttle is pulled back.
+To reverse this behavior, go to __Mixes__ > __m_brake__ and long press on __Throttle__, then tick "Negative" 
+
 ## Summary buttons
 SA top: no audio
 SA middle: only height announcement
