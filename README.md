@@ -42,7 +42,7 @@ Depending on SB, you enter then:
 
 ### Flight surfaces setup
 > [!NOTE]
-> To avoid any damage when first setting up your glider, the throw have all been limited to +/-20%
+> To avoid any damage when first setting up your glider, the throws have all been limited to +/-20%
 
 5. Go in **Outputs** and check each channel:
 > * For rudder and elevator, set the __Direction__ if needed + __Min__, __Max__ and __Center__ to match the maximum travel allowed by the surfaces
