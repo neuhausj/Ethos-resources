@@ -35,7 +35,7 @@ end
 
 -- First initialisation
 local function create()
-    return {source=nil, thresholdType=0, thresholdValue=0, value=0, colorOn=GREEN,colorOff=GREY}
+    return {source=nil, thresholdType=0, thresholdValue=0, value=0, colorOn=GREEN,colorOff=RED}
 end
 
 -- Drawing of the widget
@@ -51,7 +51,7 @@ local function paint(widget)
 	lcd.font(FONT_S)
     local s = widget.source:name()
     local text_w, text_h = lcd.getTextSize(s)
-    lcd.drawText(w/2-text_w/2, 2, widget.source:name(), LEFT)
+    lcd.drawText(w/2-text_w/2, 2, s, LEFT)
 	
 	-- Draw perimeter
 	lcd.color(BLACK)
@@ -93,11 +93,11 @@ local function configure(widget)
     -- Color Off / On
     line = form.addLine("Color OFF / ON")
     local slots = form.getFieldSlots(line, {0, "-", 0})
-    form.addColorField(line, slots[1], function() return widget.colorOff end, function(colorOff) widget.colorOff = colorOff end)
+    form.addColorField(line, slots[1], function() return widget.colorOff end, function(value) widget.colorOff = value end)
 	form.addStaticText(line, slots[2], "/")
-    form.addColorField(line, slots[3], function() return widget.colorOn end, function(colorOn) widget.colorOn = colorOn end)
+    form.addColorField(line, slots[3], function() return widget.colorOn end, function(value) widget.colorOn = value end)
 
-    -- Threshold value
+    -- Threshold type + value
     line = form.addLine("Threshold")
 	local thresholdTypes = { {">=", BIGGER}, {">", STRICT_BIGGER}, {"=", EQUAL} , {"<", STRICT_SMALLER}, {"<=", SMALLER}}
     local slots = form.getFieldSlots(line, {100,0})
@@ -108,8 +108,6 @@ end
 -- Read settings from storage
 local function read(widget)
     widget.source = storage.read("source")
-    widget.min = storage.read("min")
-    widget.max = storage.read("max")
     widget.colorOff = storage.read("colorOff")
     widget.colorOn = storage.read("colorOn")
 	widget.thresholdType = storage.read("thresholdType")
@@ -119,8 +117,6 @@ end
 -- Write settings to storage
 local function write(widget)
     storage.write("source", widget.source)
-    storage.write("min", widget.min)
-    storage.write("max", widget.max)
     storage.write("colorOff", widget.colorOff)
     storage.write("colorOn", widget.colorOn)
     storage.write("thresholdType", widget.thresholdType)

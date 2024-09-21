@@ -18,9 +18,6 @@
 -- GNU General Public License for more details.                          --
 ---------------------------------------------------------------------------
 
--- Constants
-
-
 -- Widget name
 local translations = {en="Battery", fr="Batterie"}
 local function name(widget)
@@ -30,19 +27,18 @@ end
 
 -- First initialisation
 local function create()
-    return {battSource=nil, showTotalVolt=0, minVolt=30, maxVolt=42}
+    return {battSource=nil, showTotalVolt=0, minVolt=30, maxVolt=42, value=0}
 end
 
 -- Retrieve cell count of the battery plugged
 local function getCellCount(widget)
 	local voltStep = widget.maxVolt/10 + 0.1  -- +0.1V tolerance
-
-	return math.floor(widget.battSource:value() / voltStep) + 1
+	return math.floor(widget.value / voltStep) + 1
 end
 
 -- Get percentage of battery left
 local function getPercentage(widget, i)
-	local batt = widget.battSource:value() / i
+	local batt = widget.value / i
 	if batt <= widget.minVolt/10 then
 		return 0
 	elseif batt >= widget.maxVolt/10 then
@@ -66,52 +62,46 @@ local function paint(widget)
 		return
     end
 	
-	-- Display voltage + %
+	-- Display source name as title
 	lcd.color(lcd.themeColor(0))
     lcd.font(FONT_S)
     local s = widget.battSource:name()
     local text_w, text_h = lcd.getTextSize(s)
-    lcd.drawText(w/2-text_w/2, 2, widget.battSource:name(), LEFT)
+    lcd.drawText(w/2-text_w/2, 2, s, LEFT)
+	
 	local i
 	i = getCellCount(widget)
-	if widget.showTotalVolt then
-        lcd.font(FONT_XXL)
-		s = widget.battSource:value() .." V"
-		text_w, text_h = lcd.getTextSize(s)
-		lcd.drawText(3*w/4-text_w/2, h/2-text_h/2+10, s, LEFT)
-		
-		lcd.font(FONT_XL)
-		s = getPercentage(widget,i)
-		text_w, text_h = lcd.getTextSize(s)
-		lcd.drawText(w/4-text_w, h/2-text_h/2+10,  s .. "%", LEFT)
-		
-	else
-		if i>0 then
-			--lcd.font(FONT_S)
-			--local s = i .. "S"
-			--local text_w, text_h = lcd.getTextSize(s)
-			--lcd.drawText(w-text_w-10, 0, i .. "S")
-			lcd.font(FONT_XXL)
-			s = widget.battSource:value() / i .." V"
+	-- Display voltage + %
+	if i>0 then
+		if widget.showTotalVolt then
+    	    lcd.font(FONT_XXL)
+			s = widget.value .. " V"
 			text_w, text_h = lcd.getTextSize(s)
-			--lcd.drawText(w-text_w-10, h/2-text_h/2+1, s, LEFT)
-            lcd.drawText(3*w/4-text_w/2, h/2-text_h/2+10, s, LEFT)
+			lcd.drawText(3*w/4-text_w/2, h/2-text_h/2+10, s, LEFT)
 			
 			lcd.font(FONT_XL)
 			s = getPercentage(widget,i)
 			text_w, text_h = lcd.getTextSize(s)
 			lcd.drawText(w/4-text_w, h/2-text_h/2+10,  s .. "%", LEFT)
+			
 		else
-			lcd.font(FONT_STD)
-			s = "Cell calculation error !"
-			lcd.color(COLOR_RED)
+			lcd.font(FONT_XXL)
+			s = widget.value / i .. " V"
 			text_w, text_h = lcd.getTextSize(s)
-			lcd.drawText(0, 0, "Cell calculation error")
+    	    lcd.drawText(3*w/4-text_w/2, h/2-text_h/2+10, s, LEFT)
+			
+			lcd.font(FONT_XL)
+			s = getPercentage(widget,i)
+			text_w, text_h = lcd.getTextSize(s)
+			lcd.drawText(w/4-text_w, h/2-text_h/2+10,  s .. "%", LEFT)
 		end
+	else
+		lcd.font(FONT_STD)
+		s = "Cell calculation error !"
+		lcd.color(COLOR_RED)
+		text_w, text_h = lcd.getTextSize(s)
+		lcd.drawText(0, 0, "Cell calculation error")
 	end
-
-	-- Display % of battery
-	
 end
 
 -- Trigger to redraw the widget
