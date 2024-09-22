@@ -12,7 +12,7 @@ So far, this collection contains:
 * Calibration mode for fine ailerons alignment
 * 5 Flight modes + calibration mode: Launch, Zoom, Speed, Cruise, Thermal
 * Camber settings adjustable per flight modes
-* One flight timer
+* One flight timer, one session timer (flight time since radio start), one plane timer (persistent flight time)
 * Height call 3s after exiting zoom 
 * Short beep at start / long beep at end of flight
 * Automatic logs each 500ms when in flight
@@ -45,6 +45,13 @@ Depending on SB, you enter then:
 (opt) Move the plane in the correct folder
 4. Setup your radio link; check that all telemetry informations are received. You may need to rediscover the sensors.
 
+> [!WARNING]
+> The following Special functions have to be reassigned after rediscovering sensors:
+> * SF3 (Play vario)
+> * SF4 (Altitude)
+> * SF9 (Battery) 
+> * SF11 (Altitude max)
+
 ### Flight surfaces setup
 > [!NOTE]
 > To avoid any damage when first setting up your glider, the throws have all been limited to +/-20%
@@ -59,7 +66,9 @@ Depending on SB, you enter then:
 9. Exit calibration mode by pushing SH back when satisfied with the alignment
 
 ### Buttons setup
+
 In __Logical switch__:
+
 10. Setup your launch button in __LS1 ls_launch__: click edit and set __Source (A)__ to the desired switch
 11. Setup your desired receiver low battery in __LS2 ls_lowBattery__ if you have telemetry
 
