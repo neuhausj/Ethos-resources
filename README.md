@@ -1,5 +1,10 @@
 # Ethos-resources
-Collection of resources for Ethos radios: widgets and F3K template
+Collection of resources for Ethos radios: widgets and F3K template.
+So far, this collection contains:
+
+* F3k template for 2 servos wing
+* Status widget
+* Battery widget
 
 # F3K template for 2 servos wing
 ## Features:
@@ -49,8 +54,8 @@ Depending on SB, you enter then:
 > * For aileron left and right, only set the __Direction__
 > * If channels are not in the correct order, use the __Swap channels__ button, at the end of the desired channel
 6. To aligh ailerons, enter calibration mode by activating SH and confirming the popup
-7. With the trim T5, adjust the right aileron min/max and center (2nd point from the top edge = camber in zoom mode)
-8. With the trim T6, adjust first the min/max of the left aileron and then all intermediate points to exactly match the left aileron position.
+7. With the trim T5, adjust the left aileron min/max and center (2nd point from the top edge = camber in zoom mode)
+8. With the trim T6, adjust first the min/max of the right aileron and then all intermediate points to exactly match the left aileron position.
 9. Exit calibration mode by pushing SH back when satisfied with the alignment
 
 ### Buttons setup
@@ -75,41 +80,49 @@ Template default is brakes are retracted when throttle is pulled back.
 To reverse this behavior, go to __Mixes__ > __m_brake__ and long press on __Throttle__, then tick "Negative" 
 
 ## Summary buttons
-SA top: no audio
-SA middle: only height announcement
-SA bottom: height + vario announcement
-SB top: SPEED flight mode
-SB middle: CRUISE flight mode
-SB bottom: THERMAL flight mode
-SF: launch button (customisable)
-SG bottom: enable calibration after confirmation
-T1: trim aileron
-T2: trim elevator
-T3: trim camber for selected flight mode
-T4: trim rudder
-T5: disabled in normal mode; adjust the right aileron in calibration
-T6: disabled in normal mode; adjust the left aileron in calibration
-FS6: disarm ELRS after 2seconds
-SC,SD,SE,SH, Back buttons, FS1-5: unused
 
-![image](https://github.com/user-attachments/assets/0c4bf2df-b8d9-4c1f-8c39-583ae0c0cb15)
+![image](https://github.com/user-attachments/assets/bd08ef5d-122c-4406-a583-b68dc323406b)
+![image](https://github.com/user-attachments/assets/c27a1571-1b98-45e4-bcae-2ad50b28f5ce)
+
+| Command | Description |
+| :- | :- |
+| SA top | no audio
+| SA middle | only height announcement
+| SA bottom | height + vario announcement
+| SB top | SPEED flight mode
+| SB middle | CRUISE flight mode
+| SB bottom | THERMAL flight mode
+| SF | launch button (customisable)
+| SG bottom | enable calibration after confirmation
+| T1 | trim aileron
+| T2 | trim elevator
+| T3 | trim camber for selected flight mode
+| T4 | trim rudder
+| T5 | disabled in normal mode; adjust the left aileron in calibration
+| T6 | disabled in normal mode; adjust the right aileron in calibration
+| FS6 | disarm ELRS after 2seconds
+| Back buttons | manual callout altitude (left) and time (right)
+SC,SD,SE,SH | FS1-5: unused
+
+
 
 ## Views
 3 views are predefined with the template.
 * Flight view: activated after launch
-![image](https://github.com/user-attachments/assets/552cc1a4-94ab-4fe7-85a7-cfdd4b911459)
+![image](https://github.com/user-attachments/assets/5787ebc0-3989-4c43-83df-0e3b4ae8c95c)
 
 * Flight summary: activated after landing
-![image](https://github.com/user-attachments/assets/d2e39063-f080-457d-9aa4-766b77104870)
+![image](https://github.com/user-attachments/assets/dfacd18e-872f-42ad-bc36-65da8113128c)
 
 * Radio link stats: to be activated manually
-![image](https://github.com/user-attachments/assets/d1691aee-3a3c-447f-bbdb-a308330deead)
+![image](https://github.com/user-attachments/assets/373b67ad-fd3b-4748-8d2f-92f854b907fb)
 
 
 
 
 
-# Status widget
+
+# [Status widget]
  
 Widget that displays the status of a variable when higher/equal/smaller than a specified threshold.
 The threshold value, threshold type and colors are customisable.
@@ -125,7 +138,7 @@ Settings:
 
 
 
-# Battery widget
+# [Battery widget]
  
 Widget that displays the battery voltage from a given source.
 The value can be displayed as a single cell or as total voltage.
