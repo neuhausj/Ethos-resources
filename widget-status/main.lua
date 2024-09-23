@@ -75,11 +75,13 @@ end
 
 -- Trigger to redraw the widget
 local function wakeup(widget)
-    if widget.source then
-        local newValue = widget.source:value()
-        if widget.value ~= newValue then
-            widget.value = newValue
-            lcd.invalidate()
+    if lcd.isVisible() then
+        if widget.source then
+            local newValue = widget.source:value()
+            if widget.value ~= newValue then
+                widget.value = newValue
+                lcd.invalidate()
+            end
         end
     end
 end
