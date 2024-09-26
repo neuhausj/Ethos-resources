@@ -1,6 +1,5 @@
 ---------------------------------------------------------------------------
--- Widget that displays the status of a variable according to a          --
---   specified threshold                                                 --
+-- Widget to display the battery from telemetry                          --
 --                                                                       --
 -- Author:  Jonathan Neuhaus                                             --
 -- Date:    2024-09-18                                                   --
@@ -19,115 +18,46 @@
 -- GNU General Public License for more details.                          --
 ---------------------------------------------------------------------------
 
--- Constants
-SMALLER = 0
-STRICT_SMALLER = 1
-EQUAL = 2
-STRICT_BIGGER = 3
-BIGGER = 4 
+local config = {}
+config.moduleName = "Status"
+config.moduleDir = "/scripts/widget-status/"
+config.useCompiler = true
 
--- Widget name
-local translations = {en="Status", fr="État"}
-local function name(widget)
-    local locale = system.getLocale()
-    return translations[locale] or translations["en"]
-end
+compileStatus = assert(loadfile(config.moduleDir .. "compile.lua"))(config)
+myWidget = assert(compile.loadScript(config.moduleDir .. "loadable.lua"))(config, compileStatus)
 
--- First initialisation
+
 local function create()
-    return {source=nil, thresholdType=0, thresholdValue=0, value=0, colorOn=GREEN,colorOff=RED}
+    return myWidget.create()
 end
 
--- Drawing of the widget
 local function paint(widget)
-    -- Get widget size
-	local w, h = lcd.getWindowSize()
-
-    if widget.source == nil then
-        return
-    end
-	
-	-- Write channel name in title
-	lcd.font(FONT_S)
-    local s = widget.source:name()
-    local text_w, text_h = lcd.getTextSize(s)
-    lcd.drawText(w/2-text_w/2, 2, s, LEFT)
-	
-	-- Draw perimeter
-	lcd.color(BLACK)
-	lcd.drawRectangle(2, text_h+2, w-4, h-text_h-4)
-	-- Draw status rectangle
-	if widget.thresholdType == SMALLER and widget.value <= widget.thresholdValue then
-		lcd.color(widget.colorOn)
-	elseif widget.thresholdType == STRICT_SMALLER and widget.value < widget.thresholdValue then
-		lcd.color(widget.colorOn)
-	elseif widget.thresholdType == EQUAL and widget.value == widget.thresholdValue then
-		lcd.color(widget.colorOn)
-	elseif widget.thresholdType == STRICT_BIGGER and widget.value > widget.thresholdValue then
-		lcd.color(widget.colorOn)
-	elseif widget.thresholdType == BIGGER and widget.value >= widget.thresholdValue then
-		lcd.color(widget.colorOn)
-	else
-		lcd.color(widget.colorOff)
-	end
-	lcd.drawFilledRectangle(3, text_h+3, w-6, h-text_h-6)
-end
-
--- Trigger to redraw the widget
-local function wakeup(widget)
     if lcd.isVisible() then
-        if widget.source then
-            local newValue = widget.source:value()
-            if widget.value ~= newValue then
-                widget.value = newValue
-                lcd.invalidate()
-            end
-        end
+    	return myWidget.paint(widget)
     end
 end
 
--- Widget options
+local function wakeup(widget)
+	if lcd.isVisible() then
+    	return myWidget.wakeup(widget)
+    end
+end
+
 local function configure(widget)
-    -- Source
-    line = form.addLine("Source")
-    form.addSourceField(line, nil, function() return widget.source end, function(value) widget.source = value end)
-
-    -- Color Off / On
-    line = form.addLine("Color OFF / ON")
-    local slots = form.getFieldSlots(line, {0, "-", 0})
-    form.addColorField(line, slots[1], function() return widget.colorOff end, function(value) widget.colorOff = value end)
-	form.addStaticText(line, slots[2], "/")
-    form.addColorField(line, slots[3], function() return widget.colorOn end, function(value) widget.colorOn = value end)
-
-    -- Threshold type + value
-    line = form.addLine("Threshold")
-	local thresholdTypes = { {">=", BIGGER}, {">", STRICT_BIGGER}, {"=", EQUAL} , {"<", STRICT_SMALLER}, {"<=", SMALLER}}
-    local slots = form.getFieldSlots(line, {100,0})
-    form.addChoiceField(line, slots[1], thresholdTypes, function() return widget.thresholdType end, function(value) widget.thresholdType = value end)
-    form.addNumberField(line, slots[2], -1024, 1024, function() return widget.thresholdValue end, function(value) widget.thresholdValue = value end)
+    return myWidget.configure(widget)
 end
 
--- Read settings from storage
 local function read(widget)
-    widget.source = storage.read("source")
-    widget.colorOff = storage.read("colorOff")
-    widget.colorOn = storage.read("colorOn")
-	widget.thresholdType = storage.read("thresholdType")
-	widget.thresholdValue = storage.read("thresholdValue")
+    return myWidget.read(widget)
 end
 
--- Write settings to storage
 local function write(widget)
-    storage.write("source", widget.source)
-    storage.write("colorOff", widget.colorOff)
-    storage.write("colorOn", widget.colorOn)
-    storage.write("thresholdType", widget.thresholdType)
-    storage.write("thresholdValue", widget.thresholdValue)
+    return myWidget.write(widget)
 end
 
 -- Register widget
 local function init()
-    system.registerWidget({key="statusW", name=name, create=create, paint=paint, wakeup=wakeup, configure=configure, read=read, write=write, title=false})
+  system.registerWidget({key="statusW", name=config.moduleName, create=create, paint=paint, wakeup=wakeup, configure=configure, read=read, write=write, title=false})
 end
 
 return {init=init}
