@@ -166,9 +166,4 @@ function batt.write(widget)
     storage.write("maxVolt", widget.maxVolt)
 end
 
--- Register widget
-function batt.init()
-    system.registerWidget({key="battW", name=name, create=create, paint=paint, wakeup=wakeup, configure=configure, read=read, write=write, title=false})
-end
-
 return batt

@@ -1,5 +1,5 @@
 ---------------------------------------------------------------------------
--- Widget to display the battery from telemetry                          --
+-- Widget to display the status of a value.                              --
 --                                                                       --
 -- Author:  Jonathan Neuhaus                                             --
 -- Date:    2024-09-18                                                   --
