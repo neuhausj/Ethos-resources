@@ -24,7 +24,7 @@ config.moduleDir = "/scripts/widget-battery/"
 config.useCompiler = true
 
 compile = assert(loadfile(config.moduleDir .. "compile.lua"))(config)
-batt = assert(compile.loadScript(config.moduleDir .. "loadable.lua"))(config, compile)
+local batt = assert(compile.loadScript(config.moduleDir .. "loadable.lua"))(config, compile)
 
 
 local function create()

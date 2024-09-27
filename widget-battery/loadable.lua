@@ -65,7 +65,15 @@ function batt.paint(widget)
         lcd.drawText(w/2-text_w/2, h/2-text_h/2, s)
 		return
     end
-	
+    if widget.value == nil then
+    	lcd.font(FONT_STD)
+		s = "No value received !"
+		lcd.color(COLOR_RED)
+		local text_w, text_h = lcd.getTextSize(s)
+        lcd.drawText(w/2-text_w/2, h/2-text_h/2, s)
+		return
+    end
+    
 	-- Display source name as title
 	lcd.color(lcd.themeColor(0))
     lcd.font(FONT_S)

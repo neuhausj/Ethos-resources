@@ -24,7 +24,7 @@ config.moduleDir = "/scripts/widget-status/"
 config.useCompiler = true
 
 compileStatus = assert(loadfile(config.moduleDir .. "compile.lua"))(config)
-myWidget = assert(compile.loadScript(config.moduleDir .. "loadable.lua"))(config, compileStatus)
+local myWidget = assert(compile.loadScript(config.moduleDir .. "loadable.lua"))(config, compileStatus)
 
 
 local function create()
