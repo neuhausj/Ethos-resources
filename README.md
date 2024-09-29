@@ -21,6 +21,7 @@ So far, this collection contains:
 * Full travel of the ailerons when full brake to improve control 
 * Differential is identical accross all FM and independant of other mixes
 * Automatic switching between flight widget and summary widget
+* Automatic altitude or duration callouts each 10s on a switch 
 
 ## Flight logic
 1. Press the launch switch when starting your rotation. __LAUNCH mode__ is active and allows to rotate your aircraft. 
@@ -84,6 +85,7 @@ In __Vars__ you can change:
 5. p_Ail_Rate: rates of aileron (default 100% for full travel)
 6. p_Elev_Rate: rates of elevator
 7. p_Rudder_Rate: rates of rudder
+8. p_ailBrakeComp: authority of aileron when brakes are deployed
 
 Template default is brakes are retracted when throttle is pulled back.
 To reverse this behavior, go to __Mixes__ > __m_brake__ and long press on __Throttle__, then tick "Negative" 
@@ -101,6 +103,8 @@ To reverse this behavior, go to __Mixes__ > __m_brake__ and long press on __Thro
 | SB top | SPEED flight mode
 | SB middle | CRUISE flight mode
 | SB bottom | THERMAL flight mode
+| SD middle | Call altitude each 10s when in flight
+| SD bottom | Call duration each 10s when in flight
 | SF | launch button (customisable)
 | SG bottom | enable calibration after confirmation
 | T1 | trim aileron
@@ -111,7 +115,7 @@ To reverse this behavior, go to __Mixes__ > __m_brake__ and long press on __Thro
 | T6 | disabled in normal mode; adjust the right aileron in calibration
 | FS6 | disarm ELRS after 2seconds
 | Back buttons | manual callout altitude (left) and time (right)
-SC,SD,SE,SH | FS1-5: unused
+SC,SE,SH | FS1-5: unused
 
 
 
